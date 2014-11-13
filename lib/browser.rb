@@ -48,6 +48,7 @@ class Browser
     blackberry: "BlackBerry",
     core_media: "Apple CoreMedia",
     firefox: "Firefox",
+    boardiq: "BoardIQ",
     ipad: "iPad",
     iphone: "iPhone",
     ipod: "iPod Touch",
@@ -59,7 +60,6 @@ class Browser
     quicktime: "QuickTime",
     safari: "Safari",
     xbox: "Xbox",
-
     # This must be last item, since Ruby 1.9+ has ordered keys.
     other: "Other",
   }
@@ -68,7 +68,8 @@ class Browser
     chrome: %r[(?:Chrome|CriOS)/([\d.]+)],
     default: %r[(?:Version|MSIE|Firefox|QuickTime|BlackBerry[^/]+|CoreMedia v|PhantomJS|AdobeAIR)[/ ]?([a-z0-9.]+)]i,
     opera: %r[(?:Opera/.*? Version/([\d.]+)|Chrome/.*?OPR/([\d.]+))],
-    ie: %r[(?:MSIE |Trident/.*?; rv:)([\d.]+)]
+    ie: %r[(?:MSIE |Trident/.*?; rv:)([\d.]+)],
+    boardiq: %r[(?:Board IQ)/([\d.]+)]
   }
 
   # Define the rules which define a modern browser.
@@ -133,6 +134,10 @@ class Browser
   # Return true if browser is modern (Webkit, Firefox 17+, IE9+, Opera 12+).
   def modern?
     self.class.modern_rules.any? {|rule| rule === self }
+  end
+
+  def boardiq?
+    !!(ua =~ /Board IQ/i)
   end
 
   # Detect if browser is WebKit-based.
